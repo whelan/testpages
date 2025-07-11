@@ -51,7 +51,7 @@
                         message.textContent = `Request "${request}" for ${requestor} submitted successfully.`;
                         message.classList.add('success');
                     } else {
-                        message.textContent = `Error submitting request "${request}" for ${requestor}.`;
+                        message.textContent = `Error submitting request "${request}" for ${requestor}. Response: ${data}`;
                         message.classList.add('error');
                     }
                     resultContainer.appendChild(message);
