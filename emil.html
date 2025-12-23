@@ -71,13 +71,13 @@
             const input = document.getElementById("answer").value.trim();
             const result = document.getElementById("result");
 
-            if (input === "Ørsted") {
+            if (input === "Ørsted" || input === "ørsted") {
                 // Valgfrit: kort feedback før redirect
                 result.textContent = "🎉 Korrekt – videresender…";
                 result.style.color = "#2ecc71";
 
                 setTimeout(() => {
-                    window.location.href = "https://whelan.github.io/testpages/side2.html";
+                    window.location.href = "https://whelan.github.io/testpages/Side2.html";
                 }, 800);
             } else {
                 result.textContent = "Prøv igen";
