@@ -44,24 +44,30 @@
                 formData.append('Type', 'request');
 
                 fetch(proxyUrl + encodeURIComponent(targetUrl), {
-                    method: 'POST',
-                    body: formData
-                }).then(response => {
-                    const message = document.createElement('p');
-                    if (response.ok) {
-                        message.textContent = `Request "${request}" for ${requestor} submitted successfully.`;
-                        message.classList.add('success');
-                    } else {
-                        message.textContent = `Error submitting request "${request}" for ${requestor}. Response: ${data}`;
-                        message.classList.add('error');
-                    }
-                    resultContainer.appendChild(message);
-                }).catch(error => {
-                    const message = document.createElement('p');
-                    message.textContent = `Network error submitting request "${request}" for ${requestor}: ${error}`;
-                    message.classList.add('error');
-                    resultContainer.appendChild(message);
-                });
+  method: 'POST',
+  body: formData
+})
+.then(async (response) => {
+  const text = await response.text().catch(() => "");
+  const preview = text ? text.slice(0, 500) : "(tom respons)";
+  const message = document.createElement('p');
+
+  if (response.ok) {
+    message.textContent = `OK: "${request}" for ${requestor} (${response.status})`;
+    message.classList.add('success');
+  } else {
+    message.textContent = `FEJL: "${request}" for ${requestor} (${response.status}). Response: ${preview}`;
+    message.classList.add('error');
+  }
+
+  resultContainer.appendChild(message);
+})
+.catch((err) => {
+  const message = document.createElement('p');
+  message.textContent = `Network error submitting request "${request}" for ${requestor}: ${err}`;
+  message.classList.add('error');
+  resultContainer.appendChild(message);
+});
             });
         });
     </script>
