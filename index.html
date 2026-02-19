@@ -41,6 +41,7 @@
                 formData.append('request', request);
                 formData.append('requestor', requestor);
                 formData.append('version', version);
+                formData.append('Type', 'request');
 
                 fetch(proxyUrl + encodeURIComponent(targetUrl), {
                     method: 'POST',
