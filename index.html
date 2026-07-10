@@ -29,22 +29,24 @@
             const request = document.getElementById('request').value;
             const requestors = ["Kim", "Søren", "Peter", "Camilla", "Alberte", "Morten", "Adam", "Casper", "Anna", "Emilie"];
             const version = Math.floor(Date.now() / 1000);  // Current timestamp in epoch time
-            const proxyUrl = 'https://corsproxy.io/?url=';  // CORS Proxy URL
-            const targetUrl = 'https://www.djfeed.net/gjrock/requests/';  // Target URL
+            // Your own Cloudflare Worker proxy (see djfeed-proxy-worker.js).
+            // Deploy it, then paste its *.workers.dev URL here.
+            const WORKER_URL = 'https://djfeed-proxy.larsmhansen.workers.dev/';
             const resultContainer = document.getElementById('resultContainer');
 
             // Clear previous results
             resultContainer.innerHTML = '';
 
             requestors.forEach(requestor => {
-                const formData = new FormData();
+                const formData = new URLSearchParams();
                 formData.append('request', request);
                 formData.append('requestor', requestor);
                 formData.append('version', version);
                 formData.append('Type', 'request');
 
-                fetch(proxyUrl + encodeURIComponent(targetUrl), {
+                fetch(WORKER_URL, {
   method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   body: formData
 })
 .then(async (response) => {
