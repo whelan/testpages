@@ -12,7 +12,7 @@
 //   3. Copy the *.workers.dev URL it gives you.
 //   4. Put that URL in index.html as WORKER_URL (see that file).
 
-const TARGET = 'https://www.djfeed.net/gjrock/requests/';
+const TARGET = 'https://www.djfeed.net/mrldance/requests/';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -46,7 +46,7 @@ export default {
           'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'en,en-US;q=0.9,da;q=0.8',
         'Origin': 'https://www.djfeed.net',
-        'Referer': 'https://www.djfeed.net/gjrock/requests/',
+        'Referer': TARGET,
       },
       body,
     });

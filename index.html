@@ -31,6 +31,8 @@
             const version = Math.floor(Date.now() / 1000);  // Current timestamp in epoch time
             // Your own Cloudflare Worker proxy (see djfeed-proxy-worker.js).
             // Deploy it, then paste its *.workers.dev URL here.
+            // The worker forwards to https://www.djfeed.net/mrldance/requests/
+            // -- change TARGET in that file when the event path changes.
             const WORKER_URL = 'https://djfeed-proxy.larsmhansen.workers.dev/';
             const resultContainer = document.getElementById('resultContainer');
 
