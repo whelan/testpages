@@ -14,14 +14,19 @@
 //
 // The page picks the djfeed event with ?event=<path>, e.g.
 //   https://djfeed-proxy.larsmhansen.workers.dev/?event=sdp-main
-// Only the events listed in EVENTS are forwarded; add new ones there (and to
-// the dropdown in index.html).
+// Any event name made of letters, digits and dashes is forwarded, so new
+// events only need adding to the dropdown in index.html.
+//
+// Only requests from the GitHub Pages site (ALLOWED_ORIGIN) are accepted.
+// That stops other websites from using the Worker in a browser; it is not a
+// secret, since non-browser clients can send any Origin header they like.
 
-const EVENTS = ['sdp-small', 'sdp-main'];
-const DEFAULT_EVENT = 'sdp-small';
+const ALLOWED_ORIGIN = 'https://whelan.github.io';
+const EVENT_PATTERN = /^[A-Za-z0-9-]+$/;
 
 const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+  'Vary': 'Origin',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
   'Access-Control-Max-Age': '86400',
@@ -29,6 +34,9 @@ const CORS_HEADERS = {
 
 export default {
   async fetch(request) {
+    if (request.headers.get('Origin') !== ALLOWED_ORIGIN) {
+      return new Response('Forbidden', { status: 403, headers: CORS_HEADERS });
+    }
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: CORS_HEADERS });
     }
@@ -39,9 +47,9 @@ export default {
       });
     }
 
-    const event = new URL(request.url).searchParams.get('event') || DEFAULT_EVENT;
-    if (!EVENTS.includes(event)) {
-      return new Response(`Unknown event: ${event}`, {
+    const event = new URL(request.url).searchParams.get('event') || '';
+    if (!EVENT_PATTERN.test(event)) {
+      return new Response(`Invalid event: ${event}`, {
         status: 400,
         headers: CORS_HEADERS,
       });

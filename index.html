@@ -36,8 +36,8 @@
             // Your own Cloudflare Worker proxy (see djfeed-proxy-worker.js).
             // Deploy it, then paste its *.workers.dev URL here.
             // ?event= (from the dropdown) picks the djfeed event: the worker
-            // forwards to https://www.djfeed.net/<event>/requests/ (allowed
-            // events are listed in EVENTS in that file).
+            // forwards to https://www.djfeed.net/<event>/requests/ and only
+            // accepts requests from https://whelan.github.io.
             const WORKER_URL = 'https://djfeed-proxy.larsmhansen.workers.dev/?event=' + encodeURIComponent(djfeedEvent);
             const resultContainer = document.getElementById('resultContainer');
 
