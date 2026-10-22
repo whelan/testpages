@@ -11,11 +11,22 @@
 //   2. Replace the template with this file's contents, Deploy.
 //   3. Copy the *.workers.dev URL it gives you.
 //   4. Put that URL in index.html as WORKER_URL (see that file).
+//
+// The page picks the djfeed event with ?event=<path>, e.g.
+//   https://djfeed-proxy.larsmhansen.workers.dev/?event=sdp-main
+// Any event name made of letters, digits and dashes is forwarded, so new
+// events only need adding to the dropdown in index.html.
+//
+// Only requests from the GitHub Pages site (ALLOWED_ORIGIN) are accepted.
+// That stops other websites from using the Worker in a browser; it is not a
+// secret, since non-browser clients can send any Origin header they like.
 
-const TARGET = 'https://www.djfeed.net/sdp-small/requests/';
+const ALLOWED_ORIGIN = 'https://whelan.github.io';
+const EVENT_PATTERN = /^[A-Za-z0-9-]+$/;
 
 const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+  'Vary': 'Origin',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
   'Access-Control-Max-Age': '86400',
@@ -23,6 +34,9 @@ const CORS_HEADERS = {
 
 export default {
   async fetch(request) {
+    if (request.headers.get('Origin') !== ALLOWED_ORIGIN) {
+      return new Response('Forbidden', { status: 403, headers: CORS_HEADERS });
+    }
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: CORS_HEADERS });
     }
@@ -33,9 +47,18 @@ export default {
       });
     }
 
+    const event = new URL(request.url).searchParams.get('event') || '';
+    if (!EVENT_PATTERN.test(event)) {
+      return new Response(`Invalid event: ${event}`, {
+        status: 400,
+        headers: CORS_HEADERS,
+      });
+    }
+    const target = `https://www.djfeed.net/${event}/requests/`;
+
     const body = await request.text();
 
-    const upstream = await fetch(TARGET, {
+    const upstream = await fetch(target, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -46,7 +69,7 @@ export default {
           'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'en,en-US;q=0.9,da;q=0.8',
         'Origin': 'https://www.djfeed.net',
-        'Referer': TARGET,
+        'Referer': target,
       },
       body,
     });
