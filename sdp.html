@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Submission - SDP main</title>
+    <style>
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Yvonne venter</h1>
+    <form id="requestForm">
+        <input type="text" id="request" name="request" required>
+        <button type="submit">Send</button>
+    </form>
+    <div id="resultContainer"></div>
+
+    <script>
+        document.getElementById('requestForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const request = document.getElementById('request').value;
+            const requestors = ["Kim", "Søren", "Peter", "Camilla", "Alberte", "Morten", "Adam", "Casper", "Anna", "Emilie"];
+            const version = Math.floor(Date.now() / 1000);  // Current timestamp in epoch time
+            // Your own Cloudflare Worker proxy (see djfeed-proxy-worker.js).
+            // Deploy it, then paste its *.workers.dev URL here.
+            // ?event= picks the djfeed event: the worker forwards to
+            // https://www.djfeed.net/<event>/requests/ (allowed events are
+            // listed in EVENTS in that file).
+            const WORKER_URL = 'https://djfeed-proxy.larsmhansen.workers.dev/?event=sdp-main';
+            const resultContainer = document.getElementById('resultContainer');
+
+            // Clear previous results
+            resultContainer.innerHTML = '';
+
+            requestors.forEach(requestor => {
+                const formData = new URLSearchParams();
+                formData.append('request', request);
+                formData.append('requestor', requestor);
+                formData.append('version', version);
+                formData.append('Type', 'request');
+
+                fetch(WORKER_URL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: formData
+})
+.then(async (response) => {
+  const text = await response.text().catch(() => "");
+  const preview = text ? text.slice(0, 500) : "(tom respons)";
+  const message = document.createElement('p');
+
+  if (response.ok) {
+    message.textContent = `OK: "${request}" for ${requestor} (${response.status})`;
+    message.classList.add('success');
+  } else {
+    message.textContent = `FEJL: "${request}" for ${requestor} (${response.status}). Response: ${preview}`;
+    message.classList.add('error');
+  }
+
+  resultContainer.appendChild(message);
+})
+.catch((err) => {
+  const message = document.createElement('p');
+  message.textContent = `Network error submitting request "${request}" for ${requestor}: ${err}`;
+  message.classList.add('error');
+  resultContainer.appendChild(message);
+});
+            });
+        });
+    </script>
+</body>
+</html>

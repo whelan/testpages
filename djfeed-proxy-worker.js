@@ -10,9 +10,14 @@
 //   1. https://dash.cloudflare.com  ->  Workers & Pages  ->  Create  ->  Worker
 //   2. Replace the template with this file's contents, Deploy.
 //   3. Copy the *.workers.dev URL it gives you.
-//   4. Put that URL in index.html as WORKER_URL (see that file).
+//   4. Put that URL in index.html and sdp.html as WORKER_URL (see those files).
+//
+// Each page picks its djfeed event with ?event=<path>, e.g.
+//   https://djfeed-proxy.larsmhansen.workers.dev/?event=sdp-main
+// Only the events listed in EVENTS are forwarded; add new ones there.
 
-const TARGET = 'https://www.djfeed.net/sdp-small/requests/';
+const EVENTS = ['sdp-small', 'sdp-main'];
+const DEFAULT_EVENT = 'sdp-small';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -33,9 +38,18 @@ export default {
       });
     }
 
+    const event = new URL(request.url).searchParams.get('event') || DEFAULT_EVENT;
+    if (!EVENTS.includes(event)) {
+      return new Response(`Unknown event: ${event}`, {
+        status: 400,
+        headers: CORS_HEADERS,
+      });
+    }
+    const target = `https://www.djfeed.net/${event}/requests/`;
+
     const body = await request.text();
 
-    const upstream = await fetch(TARGET, {
+    const upstream = await fetch(target, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -46,7 +60,7 @@ export default {
           'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'en,en-US;q=0.9,da;q=0.8',
         'Origin': 'https://www.djfeed.net',
-        'Referer': TARGET,
+        'Referer': target,
       },
       body,
     });
