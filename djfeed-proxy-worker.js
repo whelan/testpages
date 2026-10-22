@@ -10,11 +10,12 @@
 //   1. https://dash.cloudflare.com  ->  Workers & Pages  ->  Create  ->  Worker
 //   2. Replace the template with this file's contents, Deploy.
 //   3. Copy the *.workers.dev URL it gives you.
-//   4. Put that URL in index.html and sdp.html as WORKER_URL (see those files).
+//   4. Put that URL in index.html as WORKER_URL (see that file).
 //
-// Each page picks its djfeed event with ?event=<path>, e.g.
+// The page picks the djfeed event with ?event=<path>, e.g.
 //   https://djfeed-proxy.larsmhansen.workers.dev/?event=sdp-main
-// Only the events listed in EVENTS are forwarded; add new ones there.
+// Only the events listed in EVENTS are forwarded; add new ones there (and to
+// the dropdown in index.html).
 
 const EVENTS = ['sdp-small', 'sdp-main'];
 const DEFAULT_EVENT = 'sdp-small';

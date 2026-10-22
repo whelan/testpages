@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Request Submission - SDP small</title>
+    <title>Request Submission</title>
     <style>
         .success {
             color: green;
@@ -16,6 +16,10 @@
 <body>
     <h1>Yvonne venter</h1>
     <form id="requestForm">
+        <select id="event" name="event">
+            <option value="sdp-main">SDP main</option>
+            <option value="sdp-small">SDP small</option>
+        </select>
         <input type="text" id="request" name="request" required>
         <button type="submit">Send</button>
     </form>
@@ -26,14 +30,15 @@
             event.preventDefault();
 
             const request = document.getElementById('request').value;
+            const djfeedEvent = document.getElementById('event').value;
             const requestors = ["Kim", "Søren", "Peter", "Camilla", "Alberte", "Morten", "Adam", "Casper", "Anna", "Emilie"];
             const version = Math.floor(Date.now() / 1000);  // Current timestamp in epoch time
             // Your own Cloudflare Worker proxy (see djfeed-proxy-worker.js).
             // Deploy it, then paste its *.workers.dev URL here.
-            // ?event= picks the djfeed event: the worker forwards to
-            // https://www.djfeed.net/<event>/requests/ (allowed events are
-            // listed in EVENTS in that file).
-            const WORKER_URL = 'https://djfeed-proxy.larsmhansen.workers.dev/?event=sdp-small';
+            // ?event= (from the dropdown) picks the djfeed event: the worker
+            // forwards to https://www.djfeed.net/<event>/requests/ (allowed
+            // events are listed in EVENTS in that file).
+            const WORKER_URL = 'https://djfeed-proxy.larsmhansen.workers.dev/?event=' + encodeURIComponent(djfeedEvent);
             const resultContainer = document.getElementById('resultContainer');
 
             // Clear previous results
