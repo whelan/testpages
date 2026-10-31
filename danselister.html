@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danselister – Intermediate/Advanced</title>
+<style>
+  :root { --red:#a30d0d; --line:#d9c9a8; --bg:#fffdf8; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: "Segoe UI", Arial, sans-serif; background:#eee; color:#1a1a1a; }
+  .toolbar { text-align:center; padding:12px; }
+  .toolbar button { background:var(--red); color:#fff; border:0; padding:10px 18px; border-radius:6px; font-size:16px; cursor:pointer; }
+  .page { background:var(--bg); width:210mm; max-width:100%; min-height:297mm; margin:0 auto 20px; padding:12mm 12mm;
+          box-shadow:0 2px 8px rgba(0,0,0,.2); border-top:8px solid var(--red); }
+  header { display:flex; justify-content:space-between; align-items:baseline; border-bottom:3px solid var(--red); padding-bottom:4mm; margin-bottom:5mm; }
+  header h1 { margin:0; font-family: Georgia, serif; font-style:italic; font-size:34pt; color:var(--red); }
+  header .lvl { font-weight:700; letter-spacing:1px; font-size:11pt; }
+  header .sub { font-size:10pt; color:#555; }
+  ol { list-style:none; margin:0; padding:0; columns:2; column-gap:8mm; }
+  li { break-inside:avoid; display:flex; gap:3mm; padding:1.6mm 0; border-bottom:1px solid var(--line); }
+  .nr { flex:0 0 9mm; background:var(--red); color:#fff; font-weight:700; text-align:center; border-radius:3px; align-self:center; padding:1mm 0; font-size:10pt; }
+  .d b { display:block; font-size:11.5pt; }
+  .d span { font-size:8.5pt; color:#555; }
+  .page.long li { padding:.5mm 0; }
+  .page.long .nr { font-size:8.5pt; padding:.5mm 0; }
+  .page.long .d b { font-size:9.5pt; }
+  .page.long .d span { font-size:7pt; line-height:1.15; display:block; }
+  @media (max-width:600px){ ol{columns:1;} .page{padding:16px;min-height:0;} header h1{font-size:26pt;} }
+  @media print {
+    @page { size:A4; margin:0; }
+    body { background:#fff; }
+    .toolbar { display:none; }
+    .page { box-shadow:none; margin:0; width:210mm; height:297mm; overflow:hidden; page-break-after:always; break-after:page; }
+    .page:last-child { page-break-after:auto; break-after:auto; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+</style>
+</head>
+<body>
+<div class="toolbar"><button onclick="window.print()">Udskriv alle dage</button></div>
+<div id="days"></div>
+<script>
+const days = {
+"Fredag": [
+["3 Tequila Floor","Maddison Glover & Jo Thompson Szymanski"],["Jesse James","Rachael McEnaney"],["On That Day","Niels Poulsen"],
+["Hush Hush","Gary O'Reilly, Maggie Gallagher, Shane McKeever & Fred Whitehouse"],["Break Into My Heart",""],
+["Loved You Better","Rhoda Lai & Guillaume Richard"],["Fever Dream Å","Karl-Harry Winson"],
+["Rolling With The Boys","Fred Whitehouse, Shane McKeever, Simon Ward & Niels Poulsen"],["Devil In A Dress","Niels Poulsen"],
+["Curtain Falls","Guillaume Richard"],["Body & Soul","Gary O'Reilly"],["God Damned Beautiful","Debbie Rushton"],
+["Golden X","Roy Hadisubroto & Fiona Hadisubroto"],["I'll Never Know","Niels Poulsen & Jo Thompson Szymanski"],
+["Liquor Talking","Maddison Glover"],["You Gotta Pray","Ryan Hunt"],["Foolish Feelings","Fred Whitehouse & Niels Poulsen"],
+["I Come In Pieces","Fred Whitehouse & Debbie Rushton"],["Vanotek Cha","Gary O'Reilly"],["I Wonder","Lee Hamilton"],
+["No Time To Talk","Karl-Harry Winson"],["Light Up The Night","Ryan Hunt"],["Sticks & Stones","Maddison Glover, Simon Ward & Niels Poulsen"],
+["What Makes A King","José Miguel Belloque Vane, Gregory Danvoie & Jef Camps"],["Love Me Harder","Fred Whitehouse & Shane McKeever"],
+["For The Glory","Marlon Ronkes & Romain Brasme"],["Foolish Feelings","Fred Whitehouse & Niels Poulsen"],["Die With A Smile","Simon Ward"]],
+"Lørdag": [
+["You'll Know My Name","Niels Poulsen"],["Mercy On My Grave","Tim Johnson"],["Faithful Soul","Gary O'Reilly & Maggie Gallagher"],
+["Walk This Walk","Niels Poulsen"],["Just A Human","Daniel Trepat & Guillaume Richard"],["Move Out The Way","Fred Whitehouse"],
+["Struck","Fred Whitehouse & Shane McKeever"],["Unmade Memories","Niels Poulsen"],["I'm A Survivor","Sebastian Buttgereit"],
+["Ordinary","Gregory Danvoie & Amanda Rizzello"],["Heard The Beat","José Miguel Belloque Vane & Jean-Pierre Madge"],
+["I Got The Chance","Niels Poulsen"],["Rum & Coke","Mark Furnell & Chris Godden"],
+["You Better Think","Fred Whitehouse, Shane McKeever, Michael Lynn, Guillaume Richard, Jean-Pierre Madge & Niels Poulsen"],
+["Glow Up","Jean-Pierre Madge, Guillaume Richard, Esmeralda van de Pol & Mike Liadouze"],["Hook'n Sling","Fred Whitehouse"],
+["Wow Tokyo","Ria Vos & Kate Sala"],["Men On A Mission","Gary O'Reilly, Guillaume Richard & Niels Poulsen"],["Addicted","Rachael McEnaney"],
+["Whispers Of Forever","Grace David & Jef Camps"],["Pink Margaritas","Joey Warren & Ryan Hunt"],
+["Things I Regret","Debbie Rushton, Darren Bailey, Mike Liadouze, Fred Whitehouse & Guillaume Richard"],
+["Tonight It Rocks","Dee Musk, Roy Hadisubroto, Fiona Hadisubroto, Guyton Mundy, Fred Whitehouse, Shane McKeever, Michael Lynn & Niels Poulsen"],
+["Lose Control","Bradley Mather"],["Hurts My Soul","Niels Poulsen"],["Elastic Heart","Fiona Murray & Roy Hadisubroto"],
+["Still Holding On","Niels Poulsen"],["Fixing Me","Fred Whitehouse"],["The Keys","Fred Whitehouse & Shane McKeever"],
+["Vulnerable","Fiona Murray (IRE) & Roy Hadisubroto"],["Pinky Swear","Amy Glass"],
+["World Power","Fred Whitehouse, Tim Johnson, Rebecca Lee & Jean-Pierre Madge"],["Novocaine","Shane McKeever"],
+["Baby Steps","Debbie Rushton & Jannie Tofte Stoian"],["Delete & Repeat","Shane McKeever, Niels Poulsen, Roy Hadisubroto & Fiona Hadisubroto"],
+["Constant Love","Fred Whitehouse & Shane McKeever"],["G In The Game","Guillaume Richard"],["Seven Nation Army","Roy Hadisubroto & Shane McKeever"],
+["Heartbreak Bottles","Shane McKeever"],["Witness","Fred Whitehouse & Darren Bailey"],["Fantasia Fusion","Fred Whitehouse & Shane McKeever"],
+["Take Me To The Water","Fiona Murray & Roy Hadisubroto"],["Lifeline","Niels Poulsen"],["My Antidote","Dee Musk"],
+["It Was Worth It","Fred Whitehouse"],["Take My Love","Jean-Pierre Madge"],["You're My Religion","Niels Poulsen"],
+["Within Reach","Shane McKeever & Ryan Hunt"],["Secrets We Keep","Shane McKeever, Guillaume Richard & Niels Poulsen"],
+["Feel Good Friday","Simon Ward"],["Without The Memories","Niels Poulsen"]],
+"Søndag": [
+["Take Me To The Beach","Debbie Rushton, Gregory Danvoie, Mike Liadouze & Guillaume Richard"],["Cheat Code","Shane McKeever & Fred Whitehouse"],
+["We Pray","Esmeralda van de Pol & Guillaume Richard"],["Nicotine Patch","Fred Whitehouse"],["Soulmates","Shane McKeever"],
+["Go Getter","Jean-Pierre Madge & Rebecca Lee"],["Breathe","Simon Ward"],["My Private Dancer","Jannie Tofte Stoian"],
+["Don't Click Play","Guillaume Richard, Chris Jacques & Debbie Rushton"],["Black Smoke","Ria Vos & Ryan Hunt"],
+["Reason To Live","Darren Bailey"],["Work The World","Rebecca Lee, Mark Furnel & Chris Godden"],["Bring You Heaven","Niels Poulsen"]]
+};
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+document.getElementById("days").innerHTML = Object.entries(days).map(([day, list]) => `
+<section class="page${list.length > 40 ? " long" : ""}">
+  <header><div><h1>${day}</h1><div class="sub">Get It On Liners · 10 år · My 50s Closet</div></div>
+  <div class="lvl">INTERMEDIATE/ADVANCED</div></header>
+  <ol>${list.map(([n,c],i)=>`<li><div class="nr">${i+1}</div><div class="d"><b>${esc(n)}</b><span>${esc(c)}</span></div></li>`).join("")}</ol>
+</section>`).join("");
+</script>
+</body>
+</html>
