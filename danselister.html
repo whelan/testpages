@@ -27,10 +27,10 @@
   .page.long .d span { font-size:7pt; line-height:1.15; display:block; }
   @media (max-width:600px){ ol{columns:1;} .page{padding:16px;min-height:0;} header h1{font-size:26pt;} }
   @media print {
-    @page { size:A4; margin:0; }
+    @page { size:A4; margin:10mm; }
     body { background:#fff; }
     .toolbar { display:none; }
-    .page { box-shadow:none; margin:0; width:210mm; height:297mm; overflow:hidden; page-break-after:always; break-after:page; }
+    .page { box-shadow:none; margin:0; width:auto; min-height:0; height:auto; padding:0; border-top:6px solid var(--red); page-break-after:always; break-after:page; }
     .page:last-child { page-break-after:auto; break-after:auto; }
     * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   }
