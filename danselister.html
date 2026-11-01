@@ -2,98 +2,190 @@
 <html lang="da">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Danselister – Intermediate/Advanced</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Danselister – Get It On Liners 10 år</title>
+<meta name="theme-color" content="#a30d0d">
 <style>
-  :root { --red:#a30d0d; --line:#d9c9a8; --bg:#fffdf8; }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family: "Segoe UI", Arial, sans-serif; background:#eee; color:#1a1a1a; }
-  .toolbar { text-align:center; padding:12px; }
-  .toolbar { position:sticky; top:0; z-index:1; background:#eee; display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
-  #nav a { padding:10px 14px; border-radius:6px; background:#fff; color:var(--red); font-weight:700; text-decoration:none; border:1px solid var(--red); }
-  .page { scroll-margin-top:70px; }
-  .toolbar button { background:var(--red); color:#fff; border:0; padding:10px 18px; border-radius:6px; font-size:16px; cursor:pointer; }
-  .page { background:var(--bg); width:210mm; max-width:100%; min-height:297mm; margin:0 auto 20px; padding:12mm 12mm;
-          box-shadow:0 2px 8px rgba(0,0,0,.2); border-top:8px solid var(--red); }
-  header { display:flex; justify-content:space-between; align-items:baseline; border-bottom:3px solid var(--red); padding-bottom:4mm; margin-bottom:5mm; }
-  header h1 { margin:0; font-family: Georgia, serif; font-style:italic; font-size:34pt; color:var(--red); }
-  header .lvl { font-weight:700; letter-spacing:1px; font-size:11pt; }
-  header .sub { font-size:10pt; color:#555; }
-  ol { list-style:none; margin:0; padding:0; columns:2; column-gap:8mm; }
-  li { break-inside:avoid; display:flex; gap:3mm; padding:1.6mm 0; border-bottom:1px solid var(--line); }
-  .nr { flex:0 0 9mm; background:var(--red); color:#fff; font-weight:700; text-align:center; border-radius:3px; align-self:center; padding:1mm 0; font-size:10pt; }
-  .d b { display:block; font-size:11.5pt; }
-  .d span { font-size:8.5pt; color:#555; }
-  .page.long li { padding:.5mm 0; }
-  .page.long .nr { font-size:8.5pt; padding:.5mm 0; }
-  .page.long .d b { font-size:9.5pt; }
-  .page.long .d span { font-size:7pt; line-height:1.15; display:block; }
-  @media (max-width:600px){ ol{columns:1;} .page{padding:16px;min-height:0;} header h1{font-size:26pt;} }
+  :root { --red:#a30d0d; --red-soft:#fbe9e7; --gold:#c9a24a; --line:#ead9b5; --bg:#fbf7f0; --card:#fff; --text:#1d1b19; --muted:#6b645c; }
+  * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background:var(--bg); color:var(--text); }
+  button, input { font:inherit; }
+
+  .top { position:sticky; top:0; z-index:5; background:var(--red); color:#fff; padding:10px 16px 0; padding-top:max(10px, env(safe-area-inset-top)); box-shadow:0 2px 10px rgba(0,0,0,.18); }
+  .brand { display:flex; align-items:center; justify-content:space-between; gap:10px; max-width:820px; margin:0 auto; }
+  .brand h1 { font-size:17px; margin:0; font-weight:700; letter-spacing:.2px; }
+  .brand small { display:block; font-weight:400; opacity:.85; font-size:12px; }
+  .iconbtn { background:rgba(255,255,255,.15); border:0; color:#fff; border-radius:999px; height:38px; min-width:38px; padding:0 12px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; font-size:14px; }
+  .levels { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; max-width:820px; margin:10px auto 0; padding-bottom:10px; }
+  .levels::-webkit-scrollbar { display:none; }
+  .levels button { flex:0 0 auto; border:1px solid rgba(255,255,255,.5); background:transparent; color:#fff; border-radius:999px; padding:8px 14px; font-size:14px; font-weight:600; cursor:pointer; white-space:nowrap; }
+  .levels button[aria-pressed="true"] { background:#fff; color:var(--red); border-color:#fff; }
+  .days { display:grid; grid-template-columns:repeat(3,1fr); max-width:820px; margin:0 auto; }
+  .days button { background:transparent; border:0; color:#fff; opacity:.75; padding:10px 0 12px; font-size:15px; font-weight:700; cursor:pointer; border-bottom:3px solid transparent; }
+  .days button[aria-pressed="true"] { opacity:1; border-bottom-color:#fff; }
+  .days .cnt { font-weight:400; font-size:12px; opacity:.85; }
+
+  .search { max-width:820px; margin:12px auto 0; padding:0 16px; }
+  .search input { width:100%; border:1px solid var(--line); background:#fff; border-radius:12px; padding:11px 14px; font-size:16px; }
+  main { max-width:820px; margin:0 auto; padding:12px 16px 40px; }
+  .listhead { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin:6px 0 10px; flex-wrap:wrap; }
+  .listhead h2 { margin:0; font-family:Georgia, serif; font-style:italic; color:var(--red); font-size:28px; line-height:1.1; }
+  .listhead .lvl { font-size:12px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; color:var(--muted); }
+  .actions { display:flex; gap:8px; }
+  .actions a, .actions button { background:#fff; border:1px solid var(--red); color:var(--red); text-decoration:none; border-radius:10px; padding:8px 12px; font-size:14px; font-weight:600; cursor:pointer; }
+  .legend { font-size:12.5px; color:var(--muted); margin:0 0 10px; }
+
+  ol.list { list-style:none; margin:0; padding:0; }
+  .row { display:flex; gap:12px; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin-bottom:8px; }
+  .nr { flex:0 0 34px; height:34px; border-radius:9px; background:var(--red); color:#fff; font-weight:700; display:flex; align-items:center; justify-content:center; font-size:15px; font-variant-numeric:tabular-nums; }
+  .body { flex:1; min-width:0; display:grid; gap:8px; }
+  .dance b { display:block; font-size:16px; line-height:1.25; }
+  .dance span { display:block; font-size:13px; color:var(--muted); line-height:1.3; margin-top:2px; }
+  .dance .unk { font-style:italic; }
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .split .dance { padding-left:8px; border-left:3px solid var(--gold); }
+  .tag { display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:var(--red); margin-bottom:2px; }
+  .nyd { color:var(--muted); font-style:italic; font-size:14px; }
+  .couple { font-size:13px; background:var(--red-soft); border-radius:8px; padding:6px 8px; }
+  .couple .tag { margin:0 6px 0 0; }
+  .section { margin:18px 0 8px; font-weight:800; color:var(--red); font-size:15px; display:flex; align-items:center; gap:10px; }
+  .section::after { content:""; flex:1; height:2px; background:var(--line); }
+  .hit { background:#fff3b0; border-radius:3px; }
+  .where { font-size:12px; font-weight:700; color:var(--red); margin-bottom:2px; }
+  .empty { text-align:center; color:var(--muted); padding:30px 0; }
+  footer { max-width:820px; margin:0 auto; padding:0 16px 40px; font-size:12.5px; color:var(--muted); }
+  footer a { color:var(--red); }
+  @media (max-width:420px) { .split { grid-template-columns:1fr; gap:6px; } .listhead h2 { font-size:24px; } }
+
+  /* Print: compact, one list per page */
   @media print {
-    @page { size:A4; margin:10mm; }
+    @page { size:A4; margin:10mm 11mm; }
     body { background:#fff; }
-    .toolbar { display:none; }
-    .page { box-shadow:none; margin:0; width:auto; min-height:0; height:auto; padding:0; border-top:6px solid var(--red); page-break-after:always; break-after:page; }
-    .page:last-child { page-break-after:auto; break-after:auto; }
+    .top, .search, .actions, footer, .legend.screen { display:none !important; }
+    main { max-width:none; padding:0; }
+    .listhead { border-bottom:3px solid var(--red); padding-bottom:3mm; margin:0 0 3mm; }
+    .listhead h2 { font-size:26pt; }
+    .row { border:0; border-bottom:1px solid var(--line); border-radius:0; padding:1.2mm 0; margin:0; gap:3mm; break-inside:avoid; }
+    .nr { flex-basis:8mm; height:auto; min-height:6mm; border-radius:3px; font-size:9.5pt; }
+    .dance b { font-size:10.5pt; } .dance span { font-size:8pt; margin:0; }
+    .couple { font-size:8.5pt; padding:.5mm 2mm; }
+    .tag { font-size:6.5pt; margin:0; }
+    .body { gap:1mm; } .split { gap:4mm; grid-template-columns:1fr 1fr; }
+    .section { margin:2mm 0 1mm; font-size:10pt; break-after:avoid; }
+    body.dense ol.list { columns:2; column-gap:7mm; }
+    body.dense .split { grid-template-columns:1fr; gap:.6mm; }
+    body.dense .row { padding:.7mm 0; }
+    body.dense .dance b { font-size:9pt; } body.dense .dance span { font-size:7pt; }
+    body.dense .nr { font-size:8pt; flex-basis:7mm; }
+    body.dense .section { column-span:none; }
     * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   }
 </style>
 </head>
 <body>
-<div class="toolbar"><nav id="nav"></nav><button onclick="window.print()">Udskriv alle dage</button></div>
-<div id="days"></div>
+<header class="top">
+  <div class="brand">
+    <h1>Danselister <small>Get It On Liners · 10 års jubilæum 2026</small></h1>
+    <button class="iconbtn" id="searchBtn" aria-label="Søg i alle lister">🔍 Søg</button>
+  </div>
+  <nav class="levels" id="levels" aria-label="Niveau"></nav>
+  <nav class="days" id="days" aria-label="Dag"></nav>
+</header>
+<div class="search" id="searchBox" hidden>
+  <input id="q" type="search" placeholder="Søg dans eller koreograf i alle lister…" autocomplete="off">
+</div>
+<main id="main"></main>
+<footer>
+  Afskrevet fra de officielle danselister på <a href="https://getitonliners.com/10-%C3%A5rs-jubil%C3%A6um-2026">getitonliners.com</a>.
+  Ved tvivl gælder originalerne.
+</footer>
 <script>
-const days = {
-"Fredag": [
-["3 Tequila Floor","Maddison Glover & Jo Thompson Szymanski"],["Jesse James","Rachael McEnaney"],["On That Day","Niels Poulsen"],
-["Hush Hush","Gary O'Reilly, Maggie Gallagher, Shane McKeever & Fred Whitehouse"],["Break Into My Heart",""],
-["Loved You Better","Rhoda Lai & Guillaume Richard"],["Fever Dream Å","Karl-Harry Winson"],
-["Rolling With The Boys","Fred Whitehouse, Shane McKeever, Simon Ward & Niels Poulsen"],["Devil In A Dress","Niels Poulsen"],
-["Curtain Falls","Guillaume Richard"],["Body & Soul","Gary O'Reilly"],["God Damned Beautiful","Debbie Rushton"],
-["Golden X","Roy Hadisubroto & Fiona Hadisubroto"],["I'll Never Know","Niels Poulsen & Jo Thompson Szymanski"],
-["Liquor Talking","Maddison Glover"],["You Gotta Pray","Ryan Hunt"],["Foolish Feelings","Fred Whitehouse & Niels Poulsen"],
-["I Come In Pieces","Fred Whitehouse & Debbie Rushton"],["Vanotek Cha","Gary O'Reilly"],["I Wonder","Lee Hamilton"],
-["No Time To Talk","Karl-Harry Winson"],["Light Up The Night","Ryan Hunt"],["Sticks & Stones","Maddison Glover, Simon Ward & Niels Poulsen"],
-["What Makes A King","José Miguel Belloque Vane, Gregory Danvoie & Jef Camps"],["Love Me Harder","Fred Whitehouse & Shane McKeever"],
-["For The Glory","Marlon Ronkes & Romain Brasme"],["Foolish Feelings","Fred Whitehouse & Niels Poulsen"],["Die With A Smile","Simon Ward"]],
-"Lørdag": [
-["You'll Know My Name","Niels Poulsen"],["Mercy On My Grave","Tim Johnson"],["Faithful Soul","Gary O'Reilly & Maggie Gallagher"],
-["Walk This Walk","Niels Poulsen"],["Just A Human","Daniel Trepat & Guillaume Richard"],["Move Out The Way","Fred Whitehouse"],
-["Struck","Fred Whitehouse & Shane McKeever"],["Unmade Memories","Niels Poulsen"],["I'm A Survivor","Sebastian Buttgereit"],
-["Ordinary","Gregory Danvoie & Amanda Rizzello"],["Heard The Beat","José Miguel Belloque Vane & Jean-Pierre Madge"],
-["I Got The Chance","Niels Poulsen"],["Rum & Coke","Mark Furnell & Chris Godden"],
-["You Better Think","Fred Whitehouse, Shane McKeever, Michael Lynn, Guillaume Richard, Jean-Pierre Madge & Niels Poulsen"],
-["Glow Up","Jean-Pierre Madge, Guillaume Richard, Esmeralda van de Pol & Mike Liadouze"],["Hook'n Sling","Fred Whitehouse"],
-["Wow Tokyo","Ria Vos & Kate Sala"],["Men On A Mission","Gary O'Reilly, Guillaume Richard & Niels Poulsen"],["Addicted","Rachael McEnaney"],
-["Whispers Of Forever","Grace David & Jef Camps"],["Pink Margaritas","Joey Warren & Ryan Hunt"],
-["Things I Regret","Debbie Rushton, Darren Bailey, Mike Liadouze, Fred Whitehouse & Guillaume Richard"],
-["Tonight It Rocks","Dee Musk, Roy Hadisubroto, Fiona Hadisubroto, Guyton Mundy, Fred Whitehouse, Shane McKeever, Michael Lynn & Niels Poulsen"],
-["Lose Control","Bradley Mather"],["Hurts My Soul","Niels Poulsen"],["Elastic Heart","Fiona Murray & Roy Hadisubroto"],
-["Still Holding On","Niels Poulsen"],["Fixing Me","Fred Whitehouse"],["The Keys","Fred Whitehouse & Shane McKeever"],
-["Vulnerable","Fiona Murray (IRE) & Roy Hadisubroto"],["Pinky Swear","Amy Glass"],
-["World Power","Fred Whitehouse, Tim Johnson, Rebecca Lee & Jean-Pierre Madge"],["Novocaine","Shane McKeever"],
-["Baby Steps","Debbie Rushton & Jannie Tofte Stoian"],["Delete & Repeat","Shane McKeever, Niels Poulsen, Roy Hadisubroto & Fiona Hadisubroto"],
-["Constant Love","Fred Whitehouse & Shane McKeever"],["G In The Game","Guillaume Richard"],["Seven Nation Army","Roy Hadisubroto & Shane McKeever"],
-["Heartbreak Bottles","Shane McKeever"],["Witness","Fred Whitehouse & Darren Bailey"],["Fantasia Fusion","Fred Whitehouse & Shane McKeever"],
-["Take Me To The Water","Fiona Murray & Roy Hadisubroto"],["Lifeline","Niels Poulsen"],["My Antidote","Dee Musk"],
-["It Was Worth It","Fred Whitehouse"],["Take My Love","Jean-Pierre Madge"],["You're My Religion","Niels Poulsen"],
-["Within Reach","Shane McKeever & Ryan Hunt"],["Secrets We Keep","Shane McKeever, Guillaume Richard & Niels Poulsen"],
-["Feel Good Friday","Simon Ward"],["Without The Memories","Niels Poulsen"]],
-"Søndag": [
-["Take Me To The Beach","Debbie Rushton, Gregory Danvoie, Mike Liadouze & Guillaume Richard"],["Cheat Code","Shane McKeever & Fred Whitehouse"],
-["We Pray","Esmeralda van de Pol & Guillaume Richard"],["Nicotine Patch","Fred Whitehouse"],["Soulmates","Shane McKeever"],
-["Go Getter","Jean-Pierre Madge & Rebecca Lee"],["Breathe","Simon Ward"],["My Private Dancer","Jannie Tofte Stoian"],
-["Don't Click Play","Guillaume Richard, Chris Jacques & Debbie Rushton"],["Black Smoke","Ria Vos & Ryan Hunt"],
-["Reason To Live","Darren Bailey"],["Work The World","Rebecca Lee, Mark Furnel & Chris Godden"],["Bring You Heaven","Niels Poulsen"]]
-};
-document.getElementById("nav").innerHTML = Object.keys(days).map(d=>`<a href="#${d}">${d}</a>`).join("");
-const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-document.getElementById("days").innerHTML = Object.entries(days).map(([day, list]) => `
-<section id="${day}" class="page${list.length > 40 ? " long" : ""}">
-  <header><div><h1>${day}</h1><div class="sub">Get It On Liners · 10 år · My 50s Closet</div></div>
-  <div class="lvl">INTERMEDIATE/ADVANCED</div></header>
-  <ol>${list.map(([n,c],i)=>`<li><div class="nr">${i+1}</div><div class="d"><b>${esc(n)}</b><span>${esc(c)}</span></div></li>`).join("")}</ol>
-</section>`).join("");
+const DATA = [{"level":"Begynder","day":"Fredag","rows":[{"a":["Stand By Me","Raymond Sarlemijn & Roy Verdonk"]},{"a":["Ziggy Å","Gary Lafferty"]},{"a":["Hoedown","Gary O'Reilly"]},{"a":["Sweet Sweet Smile","Fi Scott & Johnny Two-Step"]},{"a":["A Bar Song","Ben Murphy"]},{"a":["Coco Na Na","Alison Johnstone & Joshua Talbot"]},{"a":["Never Drinking Again","Lee Hamilton"]},{"a":["Let It Bay - Be","Tina Argyle"]},{"a":["Wings To Fly","Rhoda Lai & Hayley Wheatley"]},{"a":["I Love That Dance","Tim Gauci"]},{"a":["Twenty Two (22)","Michelle Risley"]},{"a":["Going Blonde","Gary O'Reilly"]},{"a":["Mamma Maria","Frank Trace"]},{"a":["Back To The Start","Hayley Wheatley"]},{"a":["Rocket To The Sun","Maddison Glover"]},{"a":["Come Dance With Me","Jo Thompson Szymanski"]},{"a":["Love Potion 666","Rob Fowler"]},{"a":["Bloody Mary Å","Gary Lafferty"]},{"a":["The Last Shanty","Gary O'Reilly"]},{"a":["Heart In Two","Michelle Risley, Gary Lafferty & Karl-Harry Winson"]},{"a":["Walking On The Moon","Susanne Mose Nielsen"]},{"a":["Stomp 2,3,4","Rob Fowler"]},{"a":["Who Needs To Know","Joshua Talbot"]},{"a":["I Sold My Soul","Glynn Rodgers"]},{"a":["Glass Of Wine","Malene Jakobsen"]},{"a":["Stay With Me Å","Per Sørensen"]}]},{"level":"Begynder","day":"Lørdag","rows":[{"a":["The Man With The Hat","Gary O'Reilly"]},{"a":["That Honky Tonk Highway","Maggie Shipley"]},{"a":["Feeling Kinda Lonely","Margaret Swift"]},{"a":["Sumoni","Susanne Mose Nielsen"]},{"a":["Ingen Kan Love Dig I Morgen","Monica Richter-Olesen"]},{"a":["Little Red Book","Dee Musk"]},{"a":["Honky Tonk Dancing Queen AB","Carrie Ann Earl"]},{"a":["Little Rhumba","Donna Laurin"]},{"a":["Choosin' Texas","Nidhi Risi"]},{"a":["Bigger Houses","Helen Parkyn"]},{"a":["Do Si Dough","Maddison Glover & Jo Thompson Szymanski"]},{"a":["Strummingbird","Maddison Glover"]},{"a":["Lindi Shuffle","Jane Smee"]},{"a":["Sometimes I Wonder","Ron Bloye"]},{"a":["Lipstick, Powder And Paint","Steve Rutter & Claire Rutter"]},{"a":["Stumlin' In Easy","Lene Mainz Pedersen"]},{"a":["Until The Dawn","Gary Lafferty"]},{"a":["AA","Linda Scott"]},{"a":["Ticket To The Blues!","Niels Poulsen"]},{"a":["My Bestie Baby","Lynne Herman & David Herman"]},{"a":["Queen Of My Heart","Birthe Tygesen"]},{"a":["Everyday Is For Love","Susanne Mose Nielsen"]},{"a":["Living On Love AB","Lindsay Ryan"]},{"a":["Blue Night Cha","Kim Ray"]},{"a":["Made In Mexico","Maddison Glover"]},{"a":["A Summer Breeze","Rob Fowler"]},{"a":["Stealing The Best","Rosie Multari"]},{"a":["Thanks For Dancing","Natasha Cormier"]},{"a":["Movimento","Karl-Harry Winson & Chrystelle Cau"]},{"a":["Good To Be A Cowboy","Liselotte Øgaard"]},{"a":["Hide It","Colin Ghys & Ivonne Verhagen"]},{"a":["AB Needles & Pins","Peter Probert"]},{"a":["Azizam","Andrew Hayes"]},{"a":["Always Will","Heather Barton"]},{"a":["Big Old Hat","Adam Åstmar & Malene Jakobsen"]},{"a":["Shirts And Skirts","Jamie Barnfield"]},{"a":["It's A Heartache","Lorna Cairns"]},{"a":["The Sun Don't Shine Anymore In Acapulco","David Tubridy-Sinfiel & Darren Tubridy-Sinfield"]},{"a":["The Littlee Farmer","Mona Leth"]}]},{"level":"Begynder","day":"Søndag","rows":[{"a":["Baby I Wanna Know","Niels Poulsen"]},{"a":["Born To Be Great","Conrad Farnham"]},{"a":["Forever And Ever","Benny Ray"]},{"a":["Heave Away","Rob Fowler"]},{"a":["Sko & Støvler","Ukendt"]},{"a":["Sunset Road","Henrik Lassen"]},{"a":["Lucky Lips","Gary Lafferty"]},{"a":["Lonely Drum EZ","Lindy Bowers"]},{"a":["The Big One","Bill Larson"]},{"a":["When You Smile","José Miguel Belloque Vane & Roy Verdonk"]},{"a":["We're Good To Go","Rob Fowler"]},{"a":["Wishful Drinkin'","Lee Hamilton"]},{"a":["Thanks A Lot","Helen Conroy"]}]},{"level":"Improver/Intermediate","day":"Fredag","rows":[{"a":["Come Dance With Me","Jo Thompson Szymanski"]},{"a":["Stomp 2,3,4","Rob Fowler"],"b":["Mamma Maria","Frank Trace"]},{"section":"WS Sal"},{"a":["Brotherly Love","Gary O'Reilly"]},{"a":["Love Bites Back","Simon Ward & Niels Poulsen"]},{"a":["Tell Me","Gary O'Reilly"]},{"a":["Fever Dream Å","Karl-Harry Winson"]},{"a":["My Next Sad Song","Shane McKeever"]},{"a":["Hot Like Pepper","Karl-Harry Winson"]},{"a":["Role Model","Maddison Glover"]},{"a":["No Remorse","Simon Ward & Niels Poulsen"]},{"a":["Wild West & Wicked","Rob Fowler"]},{"a":["Bad Lovers","José Miguel Belloque Vane, Shane McKeever & Niels Poulsen"]},{"a":["Deeper","Gregory Danvoie"]},{"a":["Double Take","Shane McKeever & Fred Whitehouse"]},{"a":["Slow Motion","Grace David, Roy Verdonk & Jef Camps"]},{"a":["Sweet Portland Dreams","Amy Glass, Rebecca Lee, Jean-Pierre Madge, Guyton Mundy, Simon Ward & Niels Poulsen"]},{"a":["Caribbean Plans","Wil Bos & Colin Ghys"]},{"a":["Wintergreen","Maggie Gallagher"]},{"a":["Searching Soul","Niels Poulsen"]},{"a":["Telling On My Heart","Ria Vos"]},{"a":["Let's Do Da Dance","Rob Fowler"]},{"a":["Dreaming Of You","Karl-Harry Winson & Jamie Barnfield"]},{"a":["Johnnie Walker Blues","Maddison Glover"]},{"a":["Winning Horse","Ria Vos & Kate Sala"]},{"a":["5 Times You","Niels Poulsen"]},{"a":["Route 33","Jamie Barnfield & Karl-Harry Winson"]},{"a":["Mississippi Muddy Waters","Gary O'Reilly"]},{"a":["My Broken Heart","Gary O'Reilly"]},{"a":["Azizam","Jean-Pierre Madge, Simon Ward & Amy Glass Bailey"]},{"a":["Amame","Robbie McGowan Hickie"]},{"section":"Vi danser alle sammen"},{"a":["Glass Of Wine","Malene Jakobsen"]},{"a":["She Can Dance","Joshua Talbot"],"b":["The Big One","Bill Larson"]},{"a":["Corn Don't Grow","Tina Argyle"],"b":["Forever And Ever","Benny Ray"]},{"a":["Rolling With The Boys","Fred Whitehouse, Shane McKeever, Simon Ward & Niels Poulsen"],"b":"nyd"},{"a":["All You Need","Robbie McGowan Hickie"]},{"a":["S.T.F.U","Ryan Hunt"],"b":["Feeling Kinda Lonely","Margaret Swift"]},{"a":["Say La V","Rachael McEnaney"],"b":["Mamma Maria","Frank Trace"]},{"a":["Hush Hush","Gary O'Reilly, Maggie Gallagher, Shane McKeever & Fred Whitehouse"],"b":["Champagne Promise","Tina Argyle"]},{"a":["Homecoming","Lee Hamilton"]},{"a":["The Fall","Rachael McEnaney"],"b":"nyd"},{"a":["Baby Blues Cha","Simon Ward & Shane McKeever"],"b":["Until The Dawn","Gary Lafferty"]},{"a":["Baby Steps","Debbie Rushton & Jannie Tofte Stoian"],"b":"nyd"},{"a":["I Sold My Soul","Glynn Rodgers"]},{"a":["Chill Factor","Daniel Whittaker & Hayley Westhead"],"b":["Ah Si!","Rita Masur"]},{"a":["Something Good","Shane McKeever & Ryan Hunt"],"b":["Little Rhumba","Donna Laurin"]},{"a":["Whipped Cream","Gary O'Reilly, José Miguel Belloque Vane & Niels Poulsen"],"b":["Rocket To The Sun","Maddison Glover"]},{"a":["Walking On The Moon","Susanne Mose Nielsen"]}]},{"level":"Improver/Intermediate","day":"Lørdag","rows":[{"section":"WS Sal"},{"a":["Amazeballs","Pat Stott & Tina Argyle"]},{"a":["Giddy Up Get Down","Simon Ward & Maddison Glover"]},{"a":["Rolling Stone","Maggie Gallagher & Gary O'Reilly"]},{"a":["Thick Skin","Shane McKeever & Niels Poulsen"]},{"a":["Brotherly Love","Gary O'Reilly"]},{"a":["Love Bites Back","Simon Ward & Niels Poulsen"]},{"a":["Tell Me","Gary O'Reilly"]},{"a":["Fever Dream Å","Karl-Harry Winson"]},{"a":["My Next Sad Song","Shane McKeever"]},{"a":["Hot Like Pepper","Karl-Harry Winson"]},{"a":["Role Model","Maddison Glover"]},{"a":["Perfectly Perfect","Joshua Talbot & Stephen Paterson"]},{"a":["Say La V","Rachael McEnaney"]},{"a":["Bad Lovers","José Miguel Belloque Vane, Shane McKeever & Niels Poulsen"]},{"a":["Deeper","Gregory Danvoie"]},{"a":["Pants On Fire","Simon Ward & Niels Poulsen"]},{"a":["Slow Motion","Grace David, Roy Verdonk & Jef Camps"]},{"a":["Million Dollar Smile","Simon Ward"]},{"a":["Mama & Me","Gary O'Reilly"]},{"a":["This One Is For You","Simon Ward"]},{"a":["A Rattlesnake Kiss","Maddison Glover"]},{"a":["Don't Click Play","Guillaume Richard, Chris Jacques & Debbie Rushton"]},{"a":["The Card You Gamble","Gary O'Reilly"]},{"a":["Before It's Gone","Gary O'Reilly & Maggie Gallagher"]},{"a":["My Hands Are Tied","Dee Musk"]},{"a":["Dreaming Of You","Karl-Harry Winson & Jamie Barnfield"]},{"a":["One More For The Road","Shane McKeever & Fred Whitehouse"]},{"a":["Look Beyond","Dee Musk & Shelly Guichard"]},{"a":["Sapphire","Mark Furnell & Chris Godden"]},{"a":["Nordic Pulse","Adam Åstmar, Malene Jakobsen, Jonas Dahlgren, Michael Lynn, Jean-Pierre Madge & Niels Poulsen"]},{"a":["Whole Again","Sue Johnstone"]},{"a":["Hey Look At This Look","José Miguel Belloque Vane"]},{"a":["Tango With Texx","Rob Fowler"]},{"a":["Born To Fly","Maggie Gallagher"]},{"a":["Opalite","Simon Ward"]},{"section":"Jubilæumsfest – alle danser sammen"},{"a":["Ziggy Å","Gary Lafferty"]},{"a":["Ghosted","Niels Poulsen"],"b":["Ah Si!","Rita Masur"]},{"a":["Wild West & Wicked","Rob Fowler"],"b":["I Sold My Soul","Glynn Rodgers"]},{"a":["Jesse James","Rachael McEnaney"],"b":["Let It Bay-Be","Tina Argyle"]},{"a":["Stay With Me Å","Per Sørensen"]},{"a":["Tennessee Whiskey","Rob Fowler"],"b":["Lonely Drum EZ","Lindy Bowers"]},{"a":["4 The Crown","Chrystel DURAND, Darren Bailey, Kate Sala & Guillaume Richard"],"b":["Good To Be A Cowboy","Liselotte Øgaard"]},{"a":["Our Kingdom","Darren Bailey"],"b":["Love Potion 666","Rob Fowler"]},{"a":["Thanks For Dancing","Natasha Cormier"]},{"a":["Go To Hawaii","Maddison Glover"],"b":"nyd"},{"a":["High Cotton","Niels Poulsen"],"b":["Thanks A Lot","Helen Conroy"]},{"a":["God Damned Beautiful","Debbie Rushton"],"b":"nyd"},{"a":["Stand By Me","Raymond Sarlemijn & Roy Verdonk"]},{"a":["Where We've Been","Lana Harvey Wilson"],"b":["Let It Bay-Be","Tina Argyle"]},{"a":["Light Finds A Way","Raymond Sarlemijn & Colin Ghys"],"b":["All You Need","Robbie McGowan Hickie"]},{"a":["People Are Crazy","Gaye Teather"],"b":["This & That","Gary Lafferty"]},{"a":["Coco Na Na","Alison Johnstone & Joshua Talbot"]},{"a":["Somewhere In Sedona","Maddison Glover & Jo Thompson Szymanski"],"b":["Ah Si!","Rita Masur"]},{"a":["Your Love Amazes Me","Maggie Gallagher & Gary O'Reilly"],"b":"nyd"},{"a":["Dirty Old Town","Gary Lafferty"],"b":["Wings To Fly","Rhoda Lai & Hayley Wheatley"]},{"a":["Music To My Lips","Joshua Talbot"],"b":["Forever And Ever","Benny Ray"]},{"a":["Side By Side","Pat Stott"],"b":["Glass Of Wine","Malene Jacobsen"]},{"a":["Playboys","Karl-Harry Winson"],"b":["Cowboy Charleston","Jeanette HALL & Tonya MILLER"]},{"a":["Chattahoochee II","Ukendt"],"b":["I Sold My Soul","Glynn Rodgers"]},{"a":["Bloody Mary Å","Gary Lafferty"]},{"a":["Another One Bites The Dust","Ryan Hunt"],"b":["It's A Heartache","Lorna Cairns"]},{"a":["Kiss My Glass","Karl-Harry Winson"],"b":["Going Blonde","Gary O'Reilly"]},{"a":["Curtain Falls Ø","Guillaume Richard"],"b":"nyd"},{"a":["Ticket To The Blues","Niels Poulsen"]},{"a":["100 Square Feet","Lee Hamilton"],"b":"nyd"},{"a":["Storm In My Heart","Heather Barton"],"b":["Cowboy Charleston","Jeanette HALL & Tonya MILLER"]},{"a":["Dooset Daram","Gary O'Reilly, Maggie Gallagher, Shane McKeever & Fred Whitehouse"],"b":"nyd"},{"a":["Stop Staring At My Eyes!","Raymond Sarlemijn & Niels Poulsen"]},{"a":["I Love That Dance","Tim Gauci"]},{"a":["Turn This Town Å","Maddison Glover & Jo Thompson Szymanski"],"b":["Lonely Drum EZ","Lindy Bowers"]},{"a":["Cut Loose Get Loud","Jamie Barnfield"],"b":["Mamma Maria","Frank Trace"]},{"a":["Wishful Drinkin'","Lee Hamilton"]},{"a":["Foolish Feelings","Fred Whitehouse & Niels Poulsen"],"b":["Cowboy Charleston","Jeanette HALL & Tonya MILLER"]},{"a":["Just A Memory","John Dean & Maggie Gallagher"],"b":["Ziggy Å","Gary Lafferty"]},{"a":["The Sphinx","Simon Ward, Roy Hadisubroto, Fiona Murray & Rebecca Lee"],"b":"nyd"},{"a":["Going Blonde","Gary O'Reilly"]},{"a":["Cross That Line","Maddison Glover"],"b":["Until The Dawn","Gary Lafferty"]},{"a":["1-2-3-4","Niels Poulsen"],"b":["Sko & Støvler","Ukendt"]},{"a":["Tango With Texx","Rob Fowler"],"b":["Ah Si!","Rita Masur"]},{"a":["Wings To Fly","Rhoda Lai & Hayley Wheatley"]},{"a":["Take Me To The Beach","Debbie Rushton, Gregory Danvoie, Mike Liadouze & Guillaume Richard"],"b":["Feeling Kinda Lonely","Margaret Swift"]},{"a":["Dry Spell","Gary O'Reilly"],"b":["I Sold My Soul","Glynn Rodgers"]},{"a":["Lonely Drum","Darren Mitchell"],"b":["Lonely Drum EZ","Lindy Bowers"]},{"a":["Sunset Road","Henrik Lassen"]},{"a":["In Walked You","Maggie Gallagher"],"b":["Baby Walked In","Tina Argyle"]},{"a":["My Veronica","Peter Metelnick & Alison Metelnick"],"b":["Little Rhumba","Donna Laurin"]},{"a":["This Is My Vow","Marlon Ronkes (NL) & Romain Brasme"],"b":"nyd"},{"a":["Love Potion 666","Rob Fowler"]},{"a":["Liquor Talking","Maddison Glover"],"b":["Until The Dawn","Gary Lafferty"]},{"a":["Ole Es La Vida","Daniel Trepat & Chloé Ourties"],"b":["Mini Mariana","Jan Welsh"]},{"a":["Thanks A Lot","Helen Conroy"]}]},{"level":"Improver/Intermediate","day":"Søndag","rows":[{"section":"WS Sal"},{"a":["Gives Me Shivers","Brandon Zahorsky"]},{"a":["Winning Horse","Ria Vos & Kate Sala"]},{"a":["Joe's Cotton Eyes","Maggie Gallagher & Colin Ghys"]},{"a":["Bad Lovers","José Miguel Belloque Vane, Shane McKeever & Niels Poulsen"]},{"a":["Sweet Sweet Smile","Fi Scott & Johnny Two-Step"]},{"a":["Cross That Line","Maddison Glover"]},{"a":["My Next Sad Song","Shane McKeever"]},{"a":["100 Square Feet","Lee Hamilton"]},{"a":["Deeper","Gregory Danvoie"]},{"a":["Searching Soul","Niels Poulsen"]},{"a":["Johnnie Walker Blues","Maddison Glover"]},{"a":["Cheers To The History","Debbie Rushton & Jannie Tofte Stoian"]},{"a":["Role Model","Maddison Glover"]},{"a":["Firecracker Baby","Ryan Hunt"]},{"a":["Corn Don't Grow","Tina Argyle"]},{"a":["Hit The 4","Rob Fowler & Colin Ghys"]},{"a":["Say La V","Rachael McEnaney"]},{"a":["Miles Away","Dee Musk & Ria Vos"]},{"section":"Fælles afslutning – alle danser sammen"},{"a":["I Love That Dance","Tim Gauci"]},{"a":["No Remorse","Simon Ward & Niels Poulsen"]},{"a":["Let's Do Da Dance","Rob Fowler"]},{"a":["Jesse James","Rachael McEnaney"],"b":["Let It Bay-Be","Tina Argyle"]},{"a":["Love Potion 666","Rob Fowler"]},{"a":["Chill Factor","Daniel Whittaker & Hayley Westhead"],"b":["Ah Si!","Rita Masur"]},{"a":["Wings To Fly","Rhoda Lai & Hayley Wheatley"]}]},{"level":"Intermediate/Advanced","day":"Fredag","rows":[{"a":["3 Tequila Floor","Maddison Glover & Jo Thompson Szymanski"]},{"a":["Jesse James","Rachael McEnaney"]},{"a":["On That Day","Niels Poulsen"]},{"a":["Hush Hush","Gary O'Reilly, Maggie Gallagher, Shane McKeever & Fred Whitehouse"]},{"a":["Break Into My Heart",""]},{"a":["Loved You Better","Rhoda Lai & Guillaume Richard"]},{"a":["Fever Dream Å","Karl-Harry Winson"]},{"a":["Rolling With The Boys","Fred Whitehouse, Shane McKeever, Simon Ward & Niels Poulsen"]},{"a":["Devil In A Dress","Niels Poulsen"]},{"a":["Curtain Falls","Guillaume Richard"]},{"a":["Body & Soul","Gary O'Reilly"]},{"a":["God Damned Beautiful","Debbie Rushton"]},{"a":["Golden X","Roy Hadisubroto & Fiona Hadisubroto"]},{"a":["I'll Never Know","Niels Poulsen & Jo Thompson Szymanski"]},{"a":["Liquor Talking","Maddison Glover"]},{"a":["You Gotta Pray","Ryan Hunt"]},{"a":["Foolish Feelings","Fred Whitehouse & Niels Poulsen"]},{"a":["I Come In Pieces","Fred Whitehouse & Debbie Rushton"]},{"a":["Vanotek Cha","Gary O'Reilly"]},{"a":["I Wonder","Lee Hamilton"]},{"a":["No Time To Talk","Karl-Harry Winson"]},{"a":["Light Up The Night","Ryan Hunt"]},{"a":["Sticks & Stones","Maddison Glover, Simon Ward & Niels Poulsen"]},{"a":["What Makes A King","José Miguel Belloque Vane, Gregory Danvoie & Jef Camps"]},{"a":["Love Me Harder","Fred Whitehouse & Shane McKeever"]},{"a":["For The Glory","Marlon Ronkes & Romain Brasme"]},{"a":["Foolish Feelings","Fred Whitehouse & Niels Poulsen"]},{"a":["Die With A Smile","Simon Ward"]}]},{"level":"Intermediate/Advanced","day":"Lørdag","rows":[{"a":["You'll Know My Name","Niels Poulsen"]},{"a":["Mercy On My Grave","Tim Johnson"]},{"a":["Faithful Soul","Gary O'Reilly & Maggie Gallagher"]},{"a":["Walk This Walk","Niels Poulsen"]},{"a":["Just A Human","Daniel Trepat & Guillaume Richard"]},{"a":["Move Out The Way","Fred Whitehouse"]},{"a":["Struck","Fred Whitehouse & Shane McKeever"]},{"a":["Unmade Memories","Niels Poulsen"]},{"a":["I'm A Survivor","Sebastian Buttgereit"]},{"a":["Ordinary","Gregory Danvoie & Amanda Rizzello"]},{"a":["Heard The Beat","José Miguel Belloque Vane & Jean-Pierre Madge"]},{"a":["I Got The Chance","Niels Poulsen"]},{"a":["Rum & Coke","Mark Furnell & Chris Godden"]},{"a":["You Better Think","Fred Whitehouse, Shane McKeever, Michael Lynn, Guillaume Richard, Jean-Pierre Madge & Niels Poulsen"]},{"a":["Glow Up","Jean-Pierre Madge, Guillaume Richard, Esmeralda van de Pol & Mike Liadouze"]},{"a":["Hook'n Sling","Fred Whitehouse"]},{"a":["Wow Tokyo","Ria Vos & Kate Sala"]},{"a":["Men On A Mission","Gary O'Reilly, Guillaume Richard & Niels Poulsen"]},{"a":["Addicted","Rachael McEnaney"]},{"a":["Whispers Of Forever","Grace David & Jef Camps"]},{"a":["Pink Margaritas","Joey Warren & Ryan Hunt"]},{"a":["Things I Regret","Debbie Rushton, Darren Bailey, Mike Liadouze, Fred Whitehouse & Guillaume Richard"]},{"a":["Tonight It Rocks","Dee Musk, Roy Hadisubroto, Fiona Hadisubroto, Guyton Mundy, Fred Whitehouse, Shane McKeever, Michael Lynn & Niels Poulsen"]},{"a":["Lose Control","Bradley Mather"]},{"a":["Hurts My Soul","Niels Poulsen"]},{"a":["Elastic Heart","Fiona Murray & Roy Hadisubroto"]},{"a":["Still Holding On","Niels Poulsen"]},{"a":["Fixing Me","Fred Whitehouse"]},{"a":["The Keys","Fred Whitehouse & Shane McKeever"]},{"a":["Vulnerable","Fiona Murray (IRE) & Roy Hadisubroto"]},{"a":["Pinky Swear","Amy Glass"]},{"a":["World Power","Fred Whitehouse, Tim Johnson, Rebecca Lee & Jean-Pierre Madge"]},{"a":["Novocaine","Shane McKeever"]},{"a":["Baby Steps","Debbie Rushton & Jannie Tofte Stoian"]},{"a":["Delete & Repeat","Shane McKeever, Niels Poulsen, Roy Hadisubroto & Fiona Hadisubroto"]},{"a":["Constant Love","Fred Whitehouse & Shane McKeever"]},{"a":["G In The Game","Guillaume Richard"]},{"a":["Seven Nation Army","Roy Hadisubroto & Shane McKeever"]},{"a":["Heartbreak Bottles","Shane McKeever"]},{"a":["Witness","Fred Whitehouse & Darren Bailey"]},{"a":["Fantasia Fusion","Fred Whitehouse & Shane McKeever"]},{"a":["Take Me To The Water","Fiona Murray & Roy Hadisubroto"]},{"a":["Lifeline","Niels Poulsen"]},{"a":["My Antidote","Dee Musk"]},{"a":["It Was Worth It","Fred Whitehouse"]},{"a":["Take My Love","Jean-Pierre Madge"]},{"a":["You're My Religion","Niels Poulsen"]},{"a":["Within Reach","Shane McKeever & Ryan Hunt"]},{"a":["Secrets We Keep","Shane McKeever, Guillaume Richard & Niels Poulsen"]},{"a":["Feel Good Friday","Simon Ward"]},{"a":["Without The Memories","Niels Poulsen"]}]},{"level":"Intermediate/Advanced","day":"Søndag","rows":[{"a":["Take Me To The Beach","Debbie Rushton, Gregory Danvoie, Mike Liadouze & Guillaume Richard"]},{"a":["Cheat Code","Shane McKeever & Fred Whitehouse"]},{"a":["We Pray","Esmeralda van de Pol & Guillaume Richard"]},{"a":["Nicotine Patch","Fred Whitehouse"]},{"a":["Soulmates","Shane McKeever"]},{"a":["Go Getter","Jean-Pierre Madge & Rebecca Lee"]},{"a":["Breathe","Simon Ward"]},{"a":["My Private Dancer","Jannie Tofte Stoian"]},{"a":["Don't Click Play","Guillaume Richard, Chris Jacques & Debbie Rushton"]},{"a":["Black Smoke","Ria Vos & Ryan Hunt"]},{"a":["Reason To Live","Darren Bailey"]},{"a":["Work The World","Rebecca Lee, Mark Furnel & Chris Godden"]},{"a":["Bring You Heaven","Niels Poulsen"]}]},{"level":"Country","day":"Fredag","rows":[{"couple":"Going Blonde","a":["Going Blonde","Gary O'Reilly"]},{"couple":"Better Boy - tag efter væg 6 - 4 count rocking chair","a":["2 Stepping Away","Darren Bailey, Rob Fowler & Kate Sala"]},{"a":["Control Again","Leonard Hage"]},{"couple":"Old Soldier / This & That","a":["This & That","Gary Lafferty"]},{"couple":"Brotherly Love For 2","a":["Brotherly Love","Gary O'Reilly"]},{"a":["Halo And Horns","Heather Barton & Gudrun Schneider"]},{"a":["Double Devil","Chrystel DURAN & Séverine Fillion"]},{"a":["Jái Du Boogie","Max Perry"]},{"a":["She Can Dance","Joshua Talbot"]},{"couple":"The Man With The Hat 4 2 / Jambalaya","a":["The Man With The Hat","Gary O'Reilly"]},{"couple":"El Paso","a":["Heel, Toe, Rodeo","Gary O'Reilly"]},{"a":["Rose Garden","Jo Thompson Szymanski"]},{"couple":"Home 2 Ireland","a":["Summer In Ireland","Susanne Mose Nielsen"]},{"a":["Toes","Rachael McEnaney"]},{"a":["All Day Long","Gary Lafferty"]},{"couple":"Choosin' Texas","a":["Choosin' Texas","Nidhi Risi"]},{"a":["Heart Of An Angel","Yvonne Anderson"]},{"couple":"In Walked You 4 2","a":["In Walked You","Maggie Gallagher"]},{"a":["Hearts And Flowers","Adrian Churm"]}]},{"level":"Country","day":"Lørdag","rows":[{"a":["Chattahoochee II","Unknown"]},{"couple":"Going Through Hell","a":["Before The Devil","Alan Birchall"]},{"couple":"In Walked You For 2","a":["In Walked You","Maggie Gallagher"]},{"a":["Down On Your Uppers","Gary O'Reilly"]},{"couple":"Brotherly Love For 2","a":["Tell Me","Gary O'Reilly"]},{"a":["Side By Side","Pat Stott"]},{"a":["Greystone","Rob Fowler & Ed Lawton"]},{"a":["Galway Girls","Chris Hodgson"]},{"a":["Skiffle Time","Darren Bailey"]},{"couple":"Come Dance With Me","a":["Come Dance With Me","Jo Thompson Szymanski"]},{"a":["Walk Back To Me","Peter Metelnick, Alison Metelnick & Dan Albro"]},{"a":["Throw Away The Key","Alison Metelnick & Peter Metelnick"]},{"a":["Boot Scootin' Boogie","Bill Bader"]},{"couple":"Old Soldier","a":["Codigo","Pat Stott"]},{"a":["Til You Can't","Gary O'Reilly"]},{"a":["Whiskey White Lies","Sierra Gil (USA) & Dustin Valcalda"]},{"a":["Just A Memory","John Dean & Maggie Gallagher"]},{"a":["Where We've Been","Lana Harvey Wilson"]},{"a":["A Bar Song","Ben Murphy"]},{"a":["Applejack","Alison Metelnick & Peter Metelnick"]},{"couple":"Don't Break This Heart","a":["Who Did You Call Darlin'","Kevin Smith & Maria Smith"]},{"a":["Little Red Book","Dee Musk"]},{"couple":"Lord Help Me For Partners","a":["Lord Help Me","Marie Sørensen"]},{"a":["Table For Two","Karl-Harry Winson"]},{"couple":"Neon Love","a":["Don't Call Me Darlin'","Liselotte Øgaard"]},{"a":["Til The Neon's Gone","Darren Bailey"]},{"a":["Kill The Spiders","Gaye Teather"]},{"couple":"Don't Break This Heart","a":["Heart In Two","Michelle Risley, Gary Lafferty & Karl-Harry Winson"]},{"a":["Tic Tac Toe","Karl-Harry Winson"]},{"couple":"People Are 2 Crazy","a":["People Are Crazy","Gaye Teather"]},{"couple":"Walking On The Moon","a":["Hoedown","Gary O'Reilly"]},{"couple":"2 Under The Sun","a":["Corn Don't Grow","Tina Argyle"]},{"a":["Pot Of Gold","Liam Hrycan"]},{"a":["Champagne Promise","Tina Argyle"]},{"a":["Down The Dixie Road","Jean Loafman"]},{"a":["Because Of You","Robbie McGowan Hickie"]},{"couple":"Sunset Road 4-2","a":["Sunset Road","Henrik Lassen"]}]},{"level":"Country","day":"Søndag","rows":[{"a":["All You Need","Robbie McGowan Hickie"]},{"couple":"Achy Breaky Heart","a":["Disappearing Tail Lights","Alison Metelnick & Peter Metelnick"]},{"a":["3 Tequila Floor","Maddison Glover & Jo Thompson Szymanski"]},{"couple":"Thank You","a":["Sumoni","Susanne Mose Nielsen"]},{"a":["My Veronica","Peter Metelnick & Alison Metelnick"]},{"a":["Amame","Robbie McGowan Hickie"]},{"a":["Ghost Train","Kathy Hunyadi"]},{"a":["Stitch It Up","Robbie McGowan Hickie"]}]}];
+const LEVELS = [...new Set(DATA.map(d => d.level))];
+const DAYS = ["Fredag","Lørdag","Søndag"];
+const slug = s => s.toLowerCase().replace(/æ/g,"ae").replace(/ø/g,"oe").replace(/å/g,"aa").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const count = l => l.rows.filter(r => r.a).length;
+let state = { level: LEVELS[0], day: DAYS[0], q: "" };
+
+function readHash() {
+  const [l, d] = decodeURIComponent(location.hash.slice(1)).split("/");
+  const lv = LEVELS.find(x => slug(x) === l), dy = DAYS.find(x => slug(x) === d);
+  if (lv) state.level = lv; if (dy) state.day = dy;
+}
+function dance(d, hl) {
+  if (!d) return "";
+  const m = s => hl ? mark(s, hl) : esc(s);
+  return `<b>${m(d[0])}</b>${d[1] ? `<span>${m(d[1])}</span>` : `<span class="unk">Koreograf ikke angivet</span>`}`;
+}
+function mark(s, q) {
+  const i = s.toLowerCase().indexOf(q); if (i < 0) return esc(s);
+  return esc(s.slice(0,i)) + `<mark class="hit">${esc(s.slice(i,i+q.length))}</mark>` + esc(s.slice(i+q.length));
+}
+function rowHTML(r, n, hl, where) {
+  let body;
+  if (r.b) {
+    const b = r.b === "nyd" ? `<div class="dance"><span class="tag">Gulv B</span><div class="nyd">Nyd musikken</div></div>`
+                            : `<div class="dance"><span class="tag">Gulv B</span>${dance(r.b, hl)}</div>`;
+    body = `<div class="split"><div class="dance"><span class="tag">Gulv A</span>${dance(r.a, hl)}</div>${b}</div>`;
+  } else body = `<div class="dance">${dance(r.a, hl)}</div>`;
+  if (r.couple) body += `<div class="couple"><span class="tag">Pardans</span>${hl ? mark(r.couple, hl) : esc(r.couple)}</div>`;
+  return `<li class="row"><div class="nr">${n}</div><div class="body">${where ? `<div class="where">${where}</div>` : ""}${body}</div></li>`;
+}
+function listHTML(l) {
+  let n = 0, h = "";
+  for (const r of l.rows) h += r.section ? `</ol><div class="section">${esc(r.section)}</div><ol class="list">` : rowHTML(r, ++n);
+  return `<ol class="list">${h}</ol>`;
+}
+function render() {
+  document.getElementById("levels").innerHTML = LEVELS.map(l =>
+    `<button aria-pressed="${l === state.level && !state.q}" data-l="${esc(l)}">${esc(l)}</button>`).join("");
+  document.getElementById("days").innerHTML = DAYS.map(d => {
+    const l = DATA.find(x => x.level === state.level && x.day === d);
+    return `<button aria-pressed="${d === state.day && !state.q}" data-d="${d}">${d} <span class="cnt">${l ? count(l) : 0}</span></button>`;
+  }).join("");
+  const main = document.getElementById("main");
+  if (state.q) return renderSearch(main);
+  const l = DATA.find(x => x.level === state.level && x.day === state.day);
+  const hasB = l.rows.some(r => r.b), hasC = l.rows.some(r => r.couple);
+  const file = `danselister/pdf/${slug(l.level)}-${slug(l.day)}.pdf`;
+  document.body.classList.toggle("dense", count(l) > 18);
+  document.title = `${l.day} · ${l.level} – Danselister`;
+  main.innerHTML = `
+    <div class="listhead"><div><div class="lvl">${esc(l.level)}</div><h2>${l.day}</h2></div>
+      <div class="actions"><a href="${file}" download>⬇ PDF</a><button onclick="window.print()">🖨 Print</button></div></div>
+    ${hasB ? `<p class="legend screen">Rækker med to danse: Gulv A og Gulv B danses samtidig.</p>` : ""}
+    ${hasC ? `<p class="legend screen">Pardans danses samtidig på samme nummer.</p>` : ""}
+    ${listHTML(l)}`;
+}
+function renderSearch(main) {
+  const q = state.q.toLowerCase(); let h = "", hits = 0;
+  for (const l of DATA) {
+    let n = 0;
+    for (const r of l.rows) {
+      if (r.section) continue; n++;
+      const txt = [r.a, Array.isArray(r.b) ? r.b : null].flat().filter(Boolean).concat(r.couple || []).join(" ").toLowerCase();
+      if (txt.includes(q)) { hits++; h += rowHTML(r, n, q, `${esc(l.level)} · ${l.day}`); }
+    }
+  }
+  document.title = "Søg – Danselister";
+  main.innerHTML = `<div class="listhead"><div><div class="lvl">Søgning</div><h2>${hits} fund</h2></div></div>` +
+    (hits ? `<ol class="list">${h}</ol>` : `<p class="empty">Ingen danse matcher “${esc(state.q)}”.</p>`);
+}
+function go() { state.q = ""; document.getElementById("q").value = ""; history.replaceState(null, "", `#${slug(state.level)}/${slug(state.day)}`); render(); scrollTo({top:0}); }
+document.getElementById("levels").onclick = e => { const b = e.target.closest("button"); if (b) { state.level = b.dataset.l; go(); } };
+document.getElementById("days").onclick = e => { const b = e.target.closest("button"); if (b) { state.day = b.dataset.d; go(); } };
+document.getElementById("searchBtn").onclick = () => { const s = document.getElementById("searchBox"); s.hidden = !s.hidden; if (!s.hidden) document.getElementById("q").focus(); else { state.q = ""; render(); } };
+document.getElementById("q").oninput = e => { state.q = e.target.value.trim(); render(); };
+let x0 = null;
+document.getElementById("main").addEventListener("touchstart", e => { x0 = [e.touches[0].clientX, e.touches[0].clientY]; }, {passive:true});
+document.getElementById("main").addEventListener("touchend", e => {
+  if (!x0 || state.q) return; const dx = e.changedTouches[0].clientX - x0[0], dy = e.changedTouches[0].clientY - x0[1]; x0 = null;
+  if (Math.abs(dx) > 70 && Math.abs(dx) > 2 * Math.abs(dy)) { const i = DAYS.indexOf(state.day) + (dx < 0 ? 1 : -1); if (DAYS[i]) { state.day = DAYS[i]; go(); } }
+});
+addEventListener("hashchange", () => { readHash(); render(); });
+readHash(); render();
 </script>
 </body>
 </html>
